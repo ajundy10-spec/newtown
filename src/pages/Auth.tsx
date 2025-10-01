@@ -170,7 +170,6 @@ const Auth = () => {
                     type="password"
                     placeholder="••••••••"
                     required
-                    minLength={6}
                   />
                 </div>
                 <Button type="submit" className="w-full" disabled={loading}>
