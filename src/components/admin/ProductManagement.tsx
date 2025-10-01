@@ -79,8 +79,14 @@ const ProductManagement = () => {
       return;
     }
 
+    const { name, description, price, image_url, category, subcategory } = validation.data;
     const productData = {
-      ...validation.data,
+      name,
+      description,
+      price,
+      image_url,
+      category,
+      subcategory,
       available: true,
     };
 

@@ -36,8 +36,8 @@ const ProductDetail = () => {
       .single();
 
     if (error) {
-      toast.error("Failed to load product");
-      navigate("/");
+      toast.error("Product not found");
+      navigate("/menu");
     } else {
       setProduct(data);
     }
