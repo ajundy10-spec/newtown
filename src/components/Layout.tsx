@@ -2,9 +2,10 @@ import { ReactNode, useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
-import { Coffee, Home, User, ShieldCheck, LogOut } from "lucide-react";
+import { Home, User, ShieldCheck, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import logo from "@/assets/logo.png";
 
 interface LayoutProps {
   children: ReactNode;
@@ -71,11 +72,14 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="bg-primary text-primary-foreground py-4 px-4 shadow-md">
+      <header className="bg-primary text-primary-foreground py-3 px-4 shadow-md">
         <div className="container mx-auto flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <Coffee className="h-6 w-6" />
-            <h1 className="text-xl font-bold">Newtown Coffee Shop</h1>
+          <Link to="/" className="flex items-center gap-3">
+            <img src={logo} alt="Newtown Coffee" className="h-12 w-12" />
+            <div className="flex flex-col">
+              <h1 className="text-lg font-bold leading-tight">NEWTOWN COFFEE</h1>
+              <span className="text-[10px] tracking-wider opacity-90">SPECIALTY ROASTERS</span>
+            </div>
           </Link>
           {session && (
             <Button

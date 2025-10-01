@@ -30,6 +30,7 @@ interface Product {
   price: number;
   image_url: string;
   category: string;
+  subcategory: string;
   available: boolean;
 }
 
@@ -67,6 +68,7 @@ const ProductManagement = () => {
       price: parseFloat(formData.get("price") as string),
       image_url: formData.get("image_url") as string,
       category: formData.get("category") as string,
+      subcategory: formData.get("subcategory") as string,
       available: true,
     };
 
@@ -197,6 +199,16 @@ const ProductManagement = () => {
                 </SelectContent>
               </Select>
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="subcategory">Subcategory</Label>
+              <Input
+                id="subcategory"
+                name="subcategory"
+                defaultValue={editingProduct?.subcategory || "General"}
+                placeholder="e.g., Espresso Based, Fresh Baked"
+                required
+              />
+            </div>
             <div className="flex justify-end gap-2">
               <Button type="button" variant="outline" onClick={closeDialog}>
                 Cancel
@@ -243,8 +255,11 @@ const ProductManagement = () => {
                 {product.description}
               </p>
               <div className="flex justify-between items-center">
-                <span className="text-lg font-bold">${product.price.toFixed(2)}</span>
-                <span className="text-sm text-muted-foreground">{product.category}</span>
+                <span className="text-lg font-bold text-primary">${product.price.toFixed(2)}</span>
+                <div className="text-right">
+                  <p className="text-sm font-medium text-secondary">{product.category}</p>
+                  <p className="text-xs text-muted-foreground">{product.subcategory}</p>
+                </div>
               </div>
             </CardContent>
           </Card>

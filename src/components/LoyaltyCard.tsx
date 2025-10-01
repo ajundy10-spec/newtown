@@ -14,7 +14,7 @@ const LoyaltyCard = ({ points, totalEarned, rewardsRedeemed }: LoyaltyCardProps)
   const progress = (points / POINTS_FOR_REWARD) * 100;
 
   return (
-    <Card className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+    <Card className="bg-gradient-to-br from-secondary to-accent text-secondary-foreground">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Coffee className="h-5 w-5" />

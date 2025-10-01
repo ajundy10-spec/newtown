@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Coffee } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -94,10 +94,11 @@ const Auth = () => {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            <Coffee className="h-12 w-12 text-primary" />
+            <img src={logo} alt="Newtown Coffee" className="h-20 w-20" />
           </div>
-          <CardTitle className="text-3xl">Newtown Coffee Shop</CardTitle>
-          <CardDescription>Welcome! Sign in or create an account</CardDescription>
+          <CardTitle className="text-3xl text-primary">NEWTOWN COFFEE</CardTitle>
+          <CardDescription className="text-sm tracking-wider">SPECIALTY ROASTERS</CardDescription>
+          <CardDescription className="mt-2">Welcome! Sign in or create an account</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="signin" className="w-full">
