@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
+import { signUpSchema, signInSchema, passwordResetSchema } from "@/lib/validations";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -26,9 +27,21 @@ const Auth = () => {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const fullName = formData.get("fullName") as string;
+    const rawData = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+      fullName: formData.get("fullName") as string,
+    };
+
+    // Validate input
+    const validation = signUpSchema.safeParse(rawData);
+    if (!validation.success) {
+      setLoading(false);
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+
+    const { email, password, fullName } = validation.data;
 
     const { error } = await supabase.auth.signUp({
       email,
@@ -44,7 +57,7 @@ const Auth = () => {
     setLoading(false);
 
     if (error) {
-      toast.error(error.message);
+      toast.error("Failed to create account. Please try again.");
     } else {
       toast.success("Account created successfully!");
       navigate("/");
@@ -56,8 +69,20 @@ const Auth = () => {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    const rawData = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    };
+
+    // Validate input
+    const validation = signInSchema.safeParse(rawData);
+    if (!validation.success) {
+      setLoading(false);
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+
+    const { email, password } = validation.data;
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -67,7 +92,7 @@ const Auth = () => {
     setLoading(false);
 
     if (error) {
-      toast.error(error.message);
+      toast.error("Invalid email or password");
     } else {
       toast.success("Signed in successfully!");
       navigate("/");
@@ -78,12 +103,19 @@ const Auth = () => {
     const email = prompt("Enter your email address:");
     if (!email) return;
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    // Validate email
+    const validation = passwordResetSchema.safeParse({ email });
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+
+    const { error } = await supabase.auth.resetPasswordForEmail(validation.data.email, {
       redirectTo: `${window.location.origin}/auth`,
     });
 
     if (error) {
-      toast.error(error.message);
+      toast.error("Failed to send password reset email");
     } else {
       toast.success("Password reset email sent!");
     }

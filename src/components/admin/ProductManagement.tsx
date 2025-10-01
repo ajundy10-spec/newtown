@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import { productSchema } from "@/lib/validations";
 import {
   Dialog,
   DialogContent,
@@ -62,13 +63,24 @@ const ProductManagement = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    const productData = {
+    const rawData = {
       name: formData.get("name") as string,
       description: formData.get("description") as string,
       price: parseFloat(formData.get("price") as string),
       image_url: formData.get("image_url") as string,
       category: formData.get("category") as string,
       subcategory: formData.get("subcategory") as string,
+    };
+
+    // Validate input
+    const validation = productSchema.safeParse(rawData);
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+
+    const productData = {
+      ...validation.data,
       available: true,
     };
 

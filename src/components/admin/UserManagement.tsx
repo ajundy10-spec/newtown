@@ -32,7 +32,6 @@ const UserManagement = () => {
 
     if (profilesError) {
       toast.error("Failed to load users");
-      console.error(profilesError);
       setLoading(false);
       return;
     }

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Send } from "lucide-react";
+import { notificationSchema } from "@/lib/validations";
 
 const NotificationSender = () => {
   const [sending, setSending] = useState(false);
@@ -16,8 +17,20 @@ const NotificationSender = () => {
     setSending(true);
 
     const formData = new FormData(e.currentTarget);
-    const title = formData.get("title") as string;
-    const message = formData.get("message") as string;
+    const rawData = {
+      title: formData.get("title") as string,
+      message: formData.get("message") as string,
+    };
+
+    // Validate input
+    const validation = notificationSchema.safeParse(rawData);
+    if (!validation.success) {
+      setSending(false);
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+
+    const { title, message } = validation.data;
 
     const {
       data: { user },
@@ -37,7 +50,6 @@ const NotificationSender = () => {
 
     if (error) {
       toast.error("Failed to send notification");
-      console.error(error);
     } else {
       toast.success("Notification sent successfully!");
       (e.target as HTMLFormElement).reset();

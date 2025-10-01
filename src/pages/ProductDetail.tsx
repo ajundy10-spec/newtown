@@ -109,7 +109,7 @@ const ProductDetail = () => {
       );
 
       if (loyaltyError) {
-        console.error("Failed to update loyalty points", loyaltyError);
+        toast.error("Failed to update loyalty points");
       } else {
         // Fetch updated points to show correct message
         const { data: updatedLoyalty } = await supabase

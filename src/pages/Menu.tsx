@@ -36,7 +36,6 @@ const Menu = () => {
 
     if (error) {
       toast.error("Failed to load products");
-      console.error(error);
     } else {
       setProducts(data || []);
       // Expand all categories by default
