@@ -227,6 +227,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      update_loyalty_points_after_purchase: {
+        Args: { p_order_id: string; p_user_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "user"

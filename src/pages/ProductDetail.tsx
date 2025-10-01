@@ -98,29 +98,41 @@ const ProductDetail = () => {
       .single();
 
     if (loyaltyData) {
-      const newPoints = loyaltyData.points + 1;
-      const shouldRedeem = newPoints >= 10;
-
-      // Update loyalty points
-      const { error: loyaltyError } = await supabase
-        .from("loyalty_points")
-        .update({
-          points: shouldRedeem ? 0 : newPoints,
-          total_earned: loyaltyData.total_earned + 1,
-          rewards_redeemed: shouldRedeem
-            ? loyaltyData.rewards_redeemed + 1
-            : loyaltyData.rewards_redeemed,
-        })
-        .eq("user_id", user.id);
+      // Use the secure SECURITY DEFINER function to update loyalty points
+      // This prevents users from directly manipulating their points
+      const { error: loyaltyError } = await supabase.rpc(
+        "update_loyalty_points_after_purchase",
+        {
+          p_user_id: user.id,
+          p_order_id: order.id,
+        }
+      );
 
       if (loyaltyError) {
         console.error("Failed to update loyalty points", loyaltyError);
-      }
-
-      if (shouldRedeem) {
-        toast.success("🎉 Congratulations! You've earned a free coffee!");
       } else {
-        toast.success(`Purchase successful! You earned 1 point. ${10 - newPoints} more for a reward!`);
+        // Fetch updated points to show correct message
+        const { data: updatedLoyalty } = await supabase
+          .from("loyalty_points")
+          .select("points, rewards_redeemed")
+          .eq("user_id", user.id)
+          .single();
+
+        if (updatedLoyalty) {
+          const didRedeem =
+            updatedLoyalty.rewards_redeemed > loyaltyData.rewards_redeemed;
+          const newPoints = updatedLoyalty.points;
+
+          if (didRedeem) {
+            toast.success(
+              "🎉 Congratulations! You've earned a free coffee!"
+            );
+          } else {
+            toast.success(
+              `Purchase successful! You earned 1 point. ${10 - newPoints} more for a reward!`
+            );
+          }
+        }
       }
     }
 
