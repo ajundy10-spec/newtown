@@ -21,6 +21,8 @@ const Layout = ({ children }: LayoutProps) => {
       setSession(session);
       if (session) {
         checkAdminStatus(session.user.id);
+      } else if (location.pathname !== "/auth") {
+        navigate("/auth");
       }
     });
 
@@ -32,11 +34,14 @@ const Layout = ({ children }: LayoutProps) => {
         checkAdminStatus(session.user.id);
       } else {
         setIsAdmin(false);
+        if (location.pathname !== "/auth") {
+          navigate("/auth");
+        }
       }
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [navigate, location.pathname]);
 
   const checkAdminStatus = async (userId: string) => {
     const { data } = await supabase
@@ -54,11 +59,6 @@ const Layout = ({ children }: LayoutProps) => {
     toast.success("Signed out successfully");
     navigate("/auth");
   };
-
-  if (!session && location.pathname !== "/auth") {
-    navigate("/auth");
-    return null;
-  }
 
   const navItems = [
     { path: "/", icon: Home, label: "Menu" },
