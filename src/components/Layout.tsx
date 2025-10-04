@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
-import { Home, User, ShieldCheck, LogOut, Coffee, Menu } from "lucide-react";
+import { Home, User, ShieldCheck, LogOut, Coffee, Menu, Package } from "lucide-react";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
@@ -22,7 +22,7 @@ const Layout = ({ children }: LayoutProps) => {
       setSession(session);
       if (session) {
         checkAdminStatus(session.user.id);
-      } else if (location.pathname !== "/auth" && location.pathname !== "/" && location.pathname !== "/menu") {
+      } else if (location.pathname !== "/auth" && location.pathname !== "/" && location.pathname !== "/menu" && location.pathname !== "/beans") {
         navigate("/auth");
       }
     });
@@ -35,7 +35,7 @@ const Layout = ({ children }: LayoutProps) => {
         checkAdminStatus(session.user.id);
       } else {
         setIsAdmin(false);
-        if (location.pathname !== "/auth" && location.pathname !== "/" && location.pathname !== "/menu") {
+        if (location.pathname !== "/auth" && location.pathname !== "/" && location.pathname !== "/menu" && location.pathname !== "/beans") {
           navigate("/auth");
         }
       }
@@ -64,6 +64,7 @@ const Layout = ({ children }: LayoutProps) => {
   const navItems = [
     { path: "/", icon: Home, label: "Home" },
     { path: "/menu", icon: Menu, label: "Menu" },
+    { path: "/beans", icon: Package, label: "Beans" },
     { path: "/profile", icon: User, label: "Profile" },
   ];
 
@@ -91,6 +92,9 @@ const Layout = ({ children }: LayoutProps) => {
             </Link>
             <Link to="/menu" className="hover:text-primary transition-colors font-medium text-foreground">
               Menu
+            </Link>
+            <Link to="/beans" className="hover:text-primary transition-colors font-medium text-foreground">
+              Beans Shop
             </Link>
             {session && (
               <>
