@@ -78,69 +78,53 @@ const Layout = ({ children }: LayoutProps) => {
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
             <div className="relative">
-              <div className="absolute inset-0 bg-[var(--gradient-accent)] rounded-full blur-lg opacity-60 group-hover:opacity-80 transition-all duration-300" />
-              <img src={logo} alt="Newtown Coffee" className="h-10 w-10 sm:h-12 sm:w-12 relative z-10 drop-shadow-lg" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-full blur-md opacity-50 group-hover:opacity-75 transition-opacity" />
+              <img src={logo} alt="Newtown Coffee" className="h-10 w-10 sm:h-12 sm:w-12 relative z-10" />
             </div>
             <div className="flex flex-col">
               <h1 className="text-base sm:text-xl font-bold leading-tight text-foreground group-hover:text-primary transition-colors">NEWTOWN COFFEE</h1>
-              <span className="text-[8px] sm:text-[10px] tracking-wider text-muted-foreground uppercase">Specialty Roasters</span>
+              <span className="text-[8px] sm:text-[10px] tracking-wider text-muted-foreground">SPECIALTY ROASTERS</span>
             </div>
           </Link>
           <nav className="hidden md:flex gap-4 lg:gap-6 items-center">
-            <Link to="/" className="hover:text-primary transition-all duration-200 font-medium text-foreground relative group">
+            <Link to="/" className="hover:text-primary transition-colors font-medium text-foreground">
               Home
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
             </Link>
-            <Link to="/menu" className="hover:text-primary transition-all duration-200 font-medium text-foreground relative group">
+            <Link to="/menu" className="hover:text-primary transition-colors font-medium text-foreground">
               Menu
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
             </Link>
-            <Link to="/beans" className="hover:text-primary transition-all duration-200 font-medium text-foreground relative group">
+            <Link to="/beans" className="hover:text-primary transition-colors font-medium text-foreground">
               Beans Shop
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
             </Link>
             {session && (
               <>
-                <Link to="/profile" className="hover:text-primary transition-all duration-200 font-medium text-foreground relative group">
+                <Link to="/profile" className="hover:text-primary transition-colors font-medium text-foreground">
                   Profile
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
                 </Link>
                 {isAdmin && (
-                  <Link to="/admin" className="hover:text-primary transition-all duration-200 font-medium text-foreground relative group">
+                  <Link to="/admin" className="hover:text-primary transition-colors font-medium text-foreground">
                     Admin
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
                   </Link>
                 )}
               </>
             )}
             {session ? (
-              <div className="flex items-center gap-3">
-                <Button
-                  onClick={() => navigate("/profile")}
-                  variant="outline"
-                  size="sm"
-                  className="rounded-full border-2 hover:border-primary hover:text-primary transition-all"
-                >
-                  <User className="h-4 w-4 mr-2" />
-                  Account
-                </Button>
-                <Button
-                  onClick={handleSignOut}
-                  variant="ghost"
-                  size="sm"
-                  className="rounded-full hover:bg-destructive/10 hover:text-destructive"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
-                </Button>
-              </div>
+              <Button
+                onClick={handleSignOut}
+                variant="outline"
+                size="sm"
+                className="rounded-full border-2"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
             ) : (
               <Button
                 onClick={() => navigate("/auth")}
                 size="sm"
-                className="rounded-full bg-[var(--gradient-accent)] hover:shadow-[var(--shadow-md)] transition-all duration-300"
+                className="rounded-full bg-primary hover:bg-primary/90"
               >
-                Sign Up / Sign In
+                Sign In
               </Button>
             )}
           </nav>
@@ -172,25 +156,15 @@ const Layout = ({ children }: LayoutProps) => {
         </nav>
       )}
       
-      <footer className="border-t py-12 bg-gradient-to-b from-muted/30 to-muted/50">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center space-y-6">
-            <div className="flex items-center gap-3 text-2xl font-bold text-foreground">
-              <div className="relative">
-                <div className="absolute inset-0 bg-[var(--gradient-accent)] rounded-full blur-md opacity-50" />
-                <Coffee className="w-8 h-8 relative z-10 text-primary" />
-              </div>
-              Newtown Coffee
-            </div>
-            <p className="text-sm text-muted-foreground text-center max-w-md">
-              Premium specialty coffee roasted with passion. Experience the art of coffee.
-            </p>
-            <div className="flex gap-4 text-xs text-muted-foreground">
-              <span>&copy; 2024 Newtown Coffee</span>
-              <span>•</span>
-              <span>All rights reserved</span>
-            </div>
+      <footer className="border-t py-8 bg-muted/30">
+        <div className="container mx-auto px-4 text-center space-y-4">
+          <div className="flex items-center justify-center gap-2 text-xl font-bold text-primary">
+            <Coffee className="w-6 h-6" />
+            Newtown Coffee
           </div>
+          <p className="text-sm text-muted-foreground">
+            &copy; 2024 Newtown Coffee. All rights reserved. | Crafted with passion.
+          </p>
         </div>
       </footer>
     </div>

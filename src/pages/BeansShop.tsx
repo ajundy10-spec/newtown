@@ -79,35 +79,28 @@ const BeansShop = () => {
   return (
     <div className="min-h-screen pb-20">
       {/* Hero Section */}
-      <div className="bg-[image:var(--gradient-hero)] text-primary-foreground py-16 px-4 mb-8 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-1/3 w-80 h-80 bg-accent rounded-full blur-[120px] animate-pulse" />
-          <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-secondary rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
-        </div>
-        <div className="max-w-7xl mx-auto text-center space-y-5 relative z-10">
+      <div className="bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground py-12 px-4 mb-6">
+        <div className="max-w-7xl mx-auto text-center space-y-4">
           <div className="flex justify-center mb-4">
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary-foreground rounded-full blur-xl opacity-40 animate-pulse" />
-              <Coffee className="w-20 h-20 relative z-10 drop-shadow-2xl" />
-            </div>
+            <Coffee className="w-16 h-16" />
           </div>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">Coffee Beans Shop</h1>
-          <p className="text-primary-foreground/95 text-base md:text-xl lg:text-2xl max-w-3xl mx-auto font-light leading-relaxed">
-            Premium coffee beans sourced from the world's finest farms.<br className="hidden sm:block" /> Roasted to perfection for your perfect brew.
+          <h1 className="text-4xl md:text-5xl font-bold">Coffee Beans Shop</h1>
+          <p className="text-primary-foreground/90 text-base md:text-lg max-w-2xl mx-auto">
+            Premium coffee beans sourced from the world's finest farms. Roasted to perfection for your perfect brew.
           </p>
         </div>
       </div>
 
       {/* Filters Section */}
-      <div className="sticky top-0 z-40 bg-background/98 backdrop-blur-md border-b border-border pb-5 mb-8 shadow-[var(--shadow-sm)]">
+      <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border pb-4 mb-6">
         {/* Roast Level Filter */}
         <div className="px-4">
-          <div className="flex items-center gap-2 mb-4">
-            <Filter className="w-4 h-4 text-primary" />
-            <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Roast Level</h2>
+          <div className="flex items-center gap-2 mb-3">
+            <Filter className="w-4 h-4 text-muted-foreground" />
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Roast Level</h2>
           </div>
           <ScrollArea className="w-full whitespace-nowrap">
-            <div className="flex gap-3 pb-2">
+            <div className="flex gap-2 pb-2">
               {roastLevels.map((roast) => {
                 const isActive = selectedRoast === roast;
                 return (
@@ -116,7 +109,7 @@ const BeansShop = () => {
                     onClick={() => setSelectedRoast(roast)}
                     variant={isActive ? "default" : "outline"}
                     size="sm"
-                    className={`flex-shrink-0 rounded-full px-5 font-semibold transition-all duration-300 ${isActive ? "shadow-[var(--shadow-md)] scale-105" : "hover:scale-105"}`}
+                    className={`flex-shrink-0 ${isActive ? "shadow-lg" : ""}`}
                   >
                     {roast}
                   </Button>
@@ -128,8 +121,8 @@ const BeansShop = () => {
         </div>
 
         {/* Origin Filter */}
-        <div className="px-4 mt-5">
-          <h3 className="text-[10px] font-bold text-muted-foreground mb-3 uppercase tracking-widest">
+        <div className="px-4 mt-4">
+          <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
             Origin
           </h3>
           <ScrollArea className="w-full whitespace-nowrap">
@@ -142,7 +135,7 @@ const BeansShop = () => {
                     onClick={() => setSelectedOrigin(origin)}
                     variant={isActive ? "secondary" : "ghost"}
                     size="sm"
-                    className={`flex-shrink-0 rounded-full font-medium transition-all duration-200 ${isActive ? "scale-105" : "hover:scale-105"}`}
+                    className="flex-shrink-0"
                   >
                     {origin}
                   </Button>
@@ -171,35 +164,34 @@ const BeansShop = () => {
             return (
               <Card
                 key={product.id}
-                className="cursor-pointer hover:shadow-[var(--shadow-lg)] transition-all duration-500 hover:scale-[1.03] hover:-translate-y-1 border-0 shadow-[var(--shadow-sm)] overflow-hidden group bg-[image:var(--gradient-card)]"
+                className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02] border-border overflow-hidden"
                 onClick={() => navigate(`/product/${product.id}`)}
               >
-                <CardHeader className="p-0 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                <CardHeader className="p-0">
                   <img
                     src={product.image_url}
                     alt={product.name}
-                    className="w-full h-52 object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-48 object-cover"
                   />
                 </CardHeader>
-                <CardContent className="p-5">
-                  <div className="flex gap-2 mb-3">
-                    <Badge variant="secondary" className="text-xs font-semibold rounded-full px-3 py-1 shadow-[var(--shadow-sm)]">
+                <CardContent className="p-4">
+                  <div className="flex gap-2 mb-2">
+                    <Badge variant="secondary" className="text-xs">
                       {roast}
                     </Badge>
-                    <Badge variant="outline" className="text-xs font-semibold rounded-full px-3 py-1">
+                    <Badge variant="outline" className="text-xs">
                       {origin}
                     </Badge>
                   </div>
-                  <CardTitle className="mb-2 text-lg line-clamp-1 group-hover:text-primary transition-colors">{product.name}</CardTitle>
-                  <CardDescription className="mb-4 text-sm line-clamp-2 leading-relaxed">
+                  <CardTitle className="mb-2 text-lg line-clamp-1">{product.name}</CardTitle>
+                  <CardDescription className="mb-3 text-sm line-clamp-2">
                     {product.description}
                   </CardDescription>
                   <div className="flex items-center justify-between">
-                    <span className="text-3xl font-bold text-primary">
+                    <span className="text-2xl font-bold text-primary">
                       ${product.price.toFixed(2)}
                     </span>
-                    <Button size="sm" variant="secondary" className="rounded-full px-5 font-semibold hover:scale-105 transition-all">
+                    <Button size="sm" variant="secondary">
                       View
                     </Button>
                   </div>
