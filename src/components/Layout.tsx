@@ -133,28 +133,73 @@ const Layout = ({ children }: LayoutProps) => {
 
       <main className="flex-1">{children}</main>
 
-      {session && (
-        <nav className="md:hidden bg-card border-t border-border py-2 px-2 sticky bottom-0 shadow-lg z-50">
-          <div className="flex justify-around items-center">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.path;
-              return (
-                <Link key={item.path} to={item.path} className="flex-1">
-                  <Button
-                    variant={isActive ? "default" : "ghost"}
-                    size="sm"
-                    className="flex flex-col gap-1 h-auto py-2 w-full"
-                  >
-                    <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
-                    <span className="text-[10px] sm:text-xs">{item.label}</span>
-                  </Button>
-                </Link>
-              );
-            })}
-          </div>
-        </nav>
-      )}
+      <nav className="md:hidden bg-card border-t border-border py-2 px-2 sticky bottom-0 shadow-lg z-50">
+        <div className="flex justify-around items-center">
+          {session ? (
+            <>
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.path;
+                return (
+                  <Link key={item.path} to={item.path} className="flex-1">
+                    <Button
+                      variant={isActive ? "default" : "ghost"}
+                      size="sm"
+                      className="flex flex-col gap-1 h-auto py-2 w-full"
+                    >
+                      <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+                      <span className="text-[10px] sm:text-xs">{item.label}</span>
+                    </Button>
+                  </Link>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              <Link to="/" className="flex-1">
+                <Button
+                  variant={location.pathname === "/" ? "default" : "ghost"}
+                  size="sm"
+                  className="flex flex-col gap-1 h-auto py-2 w-full"
+                >
+                  <Home className="h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="text-[10px] sm:text-xs">Home</span>
+                </Button>
+              </Link>
+              <Link to="/menu" className="flex-1">
+                <Button
+                  variant={location.pathname === "/menu" ? "default" : "ghost"}
+                  size="sm"
+                  className="flex flex-col gap-1 h-auto py-2 w-full"
+                >
+                  <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="text-[10px] sm:text-xs">Menu</span>
+                </Button>
+              </Link>
+              <Link to="/beans" className="flex-1">
+                <Button
+                  variant={location.pathname === "/beans" ? "default" : "ghost"}
+                  size="sm"
+                  className="flex flex-col gap-1 h-auto py-2 w-full"
+                >
+                  <Package className="h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="text-[10px] sm:text-xs">Beans</span>
+                </Button>
+              </Link>
+              <Link to="/auth" className="flex-1">
+                <Button
+                  variant={location.pathname === "/auth" ? "default" : "ghost"}
+                  size="sm"
+                  className="flex flex-col gap-1 h-auto py-2 w-full"
+                >
+                  <User className="h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="text-[10px] sm:text-xs">Sign In</span>
+                </Button>
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
       
       <footer className="border-t py-8 bg-muted/30">
         <div className="container mx-auto px-4 text-center space-y-4">
