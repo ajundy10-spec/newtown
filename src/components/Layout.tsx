@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
-import { Home, User, ShieldCheck, LogOut, Coffee, Menu, Package } from "lucide-react";
+import { Home, User, ShieldCheck, LogOut, Coffee, Menu, Leaf } from "lucide-react";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
@@ -64,7 +64,7 @@ const Layout = ({ children }: LayoutProps) => {
   const navItems = [
     { path: "/", icon: Home, label: "Home" },
     { path: "/menu", icon: Menu, label: "Menu" },
-    { path: "/beans", icon: Package, label: "Beans" },
+    { path: "/beans", icon: Leaf, label: "Beans" },
     { path: "/profile", icon: User, label: "Profile" },
   ];
 
@@ -182,7 +182,7 @@ const Layout = ({ children }: LayoutProps) => {
                   size="sm"
                   className="flex flex-col gap-1 h-auto py-2 w-full"
                 >
-                  <Package className="h-4 w-4 sm:h-5 sm:w-5" />
+                  <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />
                   <span className="text-[10px] sm:text-xs">Beans</span>
                 </Button>
               </Link>
