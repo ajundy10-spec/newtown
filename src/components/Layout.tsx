@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
-import { Home, User, ShieldCheck, LogOut } from "lucide-react";
+import { Home, User, ShieldCheck, LogOut, Coffee, Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
@@ -22,7 +22,7 @@ const Layout = ({ children }: LayoutProps) => {
       setSession(session);
       if (session) {
         checkAdminStatus(session.user.id);
-      } else if (location.pathname !== "/auth") {
+      } else if (location.pathname !== "/auth" && location.pathname !== "/" && location.pathname !== "/menu") {
         navigate("/auth");
       }
     });
@@ -35,7 +35,7 @@ const Layout = ({ children }: LayoutProps) => {
         checkAdminStatus(session.user.id);
       } else {
         setIsAdmin(false);
-        if (location.pathname !== "/auth") {
+        if (location.pathname !== "/auth" && location.pathname !== "/" && location.pathname !== "/menu") {
           navigate("/auth");
         }
       }
@@ -62,7 +62,8 @@ const Layout = ({ children }: LayoutProps) => {
   };
 
   const navItems = [
-    { path: "/", icon: Home, label: "Menu" },
+    { path: "/", icon: Home, label: "Home" },
+    { path: "/menu", icon: Menu, label: "Menu" },
     { path: "/profile", icon: User, label: "Profile" },
   ];
 
@@ -72,33 +73,64 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="bg-primary text-primary-foreground py-3 px-4 shadow-md">
-        <div className="container mx-auto flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3">
-            <img src={logo} alt="Newtown Coffee" className="h-12 w-12" />
+      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-full blur-md opacity-50 group-hover:opacity-75 transition-opacity" />
+              <img src={logo} alt="Newtown Coffee" className="h-12 w-12 relative z-10" />
+            </div>
             <div className="flex flex-col">
-              <h1 className="text-lg font-bold leading-tight">NEWTOWN COFFEE</h1>
-              <span className="text-[10px] tracking-wider opacity-90">SPECIALTY ROASTERS</span>
+              <h1 className="text-xl font-bold leading-tight text-foreground group-hover:text-primary transition-colors">NEWTOWN COFFEE</h1>
+              <span className="text-[10px] tracking-wider text-muted-foreground">SPECIALTY ROASTERS</span>
             </div>
           </Link>
-          {session && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleSignOut}
-              className="text-primary-foreground hover:bg-primary/90"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
-            </Button>
-          )}
+          <nav className="hidden md:flex gap-6 items-center">
+            <Link to="/" className="hover:text-primary transition-colors font-medium text-foreground">
+              Home
+            </Link>
+            <Link to="/menu" className="hover:text-primary transition-colors font-medium text-foreground">
+              Menu
+            </Link>
+            {session && (
+              <>
+                <Link to="/profile" className="hover:text-primary transition-colors font-medium text-foreground">
+                  Profile
+                </Link>
+                {isAdmin && (
+                  <Link to="/admin" className="hover:text-primary transition-colors font-medium text-foreground">
+                    Admin
+                  </Link>
+                )}
+              </>
+            )}
+            {session ? (
+              <Button
+                onClick={handleSignOut}
+                variant="outline"
+                size="sm"
+                className="rounded-full border-2"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
+            ) : (
+              <Button
+                onClick={() => navigate("/auth")}
+                size="sm"
+                className="rounded-full bg-primary hover:bg-primary/90"
+              >
+                Sign In
+              </Button>
+            )}
+          </nav>
         </div>
       </header>
 
-      <main className="flex-1 container mx-auto p-4">{children}</main>
+      <main className="flex-1">{children}</main>
 
       {session && (
-        <nav className="bg-card border-t border-border py-3 px-4 sticky bottom-0">
+        <nav className="md:hidden bg-card border-t border-border py-3 px-4 sticky bottom-0 shadow-lg">
           <div className="container mx-auto flex justify-around items-center">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -119,6 +151,18 @@ const Layout = ({ children }: LayoutProps) => {
           </div>
         </nav>
       )}
+      
+      <footer className="border-t py-8 bg-muted/30">
+        <div className="container mx-auto px-4 text-center space-y-4">
+          <div className="flex items-center justify-center gap-2 text-xl font-bold text-primary">
+            <Coffee className="w-6 h-6" />
+            Newtown Coffee
+          </div>
+          <p className="text-sm text-muted-foreground">
+            &copy; 2024 Newtown Coffee. All rights reserved. | Crafted with passion.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
