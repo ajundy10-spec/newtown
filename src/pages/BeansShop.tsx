@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Coffee, Filter } from "lucide-react";
+import { Coffee, Filter, Leaf } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface BeanProduct {
@@ -82,7 +82,10 @@ const BeansShop = () => {
       <div className="bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground py-12 px-4 mb-6">
         <div className="max-w-7xl mx-auto text-center space-y-4">
           <div className="flex justify-center mb-4">
-            <Coffee className="w-16 h-16" />
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary-foreground/20 rounded-full blur-2xl animate-pulse" />
+              <Leaf className="w-20 h-20 relative z-10" />
+            </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold">Coffee Beans Shop</h1>
           <p className="text-primary-foreground/90 text-base md:text-lg max-w-2xl mx-auto">
@@ -203,7 +206,7 @@ const BeansShop = () => {
 
         {filteredProducts.length === 0 && (
           <div className="text-center py-12">
-            <Coffee className="w-16 h-16 mx-auto text-muted-foreground/50 mb-4" />
+            <Leaf className="w-16 h-16 mx-auto text-muted-foreground/50 mb-4" />
             <p className="text-muted-foreground">No coffee beans match your filters.</p>
             <Button
               variant="outline"
