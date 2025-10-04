@@ -4,7 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Coffee, Cookie, Sandwich, Sparkles } from "lucide-react";
 
 interface Product {
   id: string;
@@ -20,7 +21,8 @@ const Menu = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>("");
 
   useEffect(() => {
     fetchProducts();
@@ -38,21 +40,25 @@ const Menu = () => {
       toast.error("Failed to load products");
     } else {
       setProducts(data || []);
-      // Expand all categories by default
-      const categories = new Set((data || []).map(p => p.category));
-      setExpandedCategories(categories);
+      // Set first category as default
+      if (data && data.length > 0) {
+        const firstCategory = data[0].category;
+        setSelectedCategory(firstCategory);
+        const firstSubcategory = data.find(p => p.category === firstCategory)?.subcategory || "";
+        setSelectedSubcategory(firstSubcategory);
+      }
     }
     setLoading(false);
   };
 
-  const toggleCategory = (category: string) => {
-    const newExpanded = new Set(expandedCategories);
-    if (newExpanded.has(category)) {
-      newExpanded.delete(category);
-    } else {
-      newExpanded.add(category);
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case "Coffee": return Coffee;
+      case "Tea & More": return Sparkles;
+      case "Bakery": return Cookie;
+      case "Food": return Sandwich;
+      default: return Coffee;
     }
-    setExpandedCategories(newExpanded);
   };
 
   // Group products by category and subcategory
@@ -67,6 +73,15 @@ const Menu = () => {
     return acc;
   }, {} as Record<string, Record<string, Product[]>>);
 
+  // Get unique categories and subcategories
+  const categories = Object.keys(groupedProducts);
+  const subcategories = selectedCategory ? Object.keys(groupedProducts[selectedCategory] || {}) : [];
+  
+  // Filter products based on selection
+  const filteredProducts = selectedCategory && selectedSubcategory
+    ? groupedProducts[selectedCategory]?.[selectedSubcategory] || []
+    : [];
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -76,70 +91,114 @@ const Menu = () => {
   }
 
   return (
-    <div className="space-y-6 pb-8">
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-primary">Our Menu</h1>
-        <p className="text-muted-foreground">Freshly brewed coffee & delicious treats</p>
+    <div className="min-h-screen pb-20">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-primary via-primary/90 to-accent text-primary-foreground py-8 px-4 mb-6">
+        <div className="max-w-7xl mx-auto text-center space-y-2">
+          <h1 className="text-3xl md:text-4xl font-bold">Our Menu</h1>
+          <p className="text-primary-foreground/90 text-sm md:text-base">Freshly brewed coffee & delicious treats</p>
+        </div>
       </div>
 
-      {Object.entries(groupedProducts).map(([category, subcategories]) => {
-        const isExpanded = expandedCategories.has(category);
-        
-        return (
-          <div key={category} className="space-y-4">
-            <button
-              onClick={() => toggleCategory(category)}
-              className="w-full flex items-center justify-between bg-secondary text-secondary-foreground px-6 py-3 rounded-lg hover:opacity-90 transition-opacity"
-            >
-              <h2 className="text-2xl font-semibold">{category}</h2>
-              {isExpanded ? (
-                <ChevronUp className="h-6 w-6" />
-              ) : (
-                <ChevronDown className="h-6 w-6" />
-              )}
-            </button>
+      {/* Category Navigation */}
+      <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border pb-4 mb-6">
+        <div className="px-4">
+          <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Categories</h2>
+          <ScrollArea className="w-full whitespace-nowrap">
+            <div className="flex gap-2 pb-2">
+              {categories.map((category) => {
+                const Icon = getCategoryIcon(category);
+                const isActive = selectedCategory === category;
+                return (
+                  <Button
+                    key={category}
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      const firstSub = Object.keys(groupedProducts[category] || {})[0];
+                      setSelectedSubcategory(firstSub || "");
+                    }}
+                    variant={isActive ? "default" : "outline"}
+                    className={`flex-shrink-0 gap-2 ${isActive ? "shadow-lg" : ""}`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span className="whitespace-nowrap">{category}</span>
+                  </Button>
+                );
+              })}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </div>
 
-            {isExpanded && (
-              <div className="space-y-6 pl-4">
-                {Object.entries(subcategories).map(([subcategory, items]) => (
-                  <div key={subcategory} className="space-y-3">
-                    <h3 className="text-xl font-semibold text-accent">{subcategory}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {items.map((product) => (
-                        <Card
-                          key={product.id}
-                          className="cursor-pointer hover:shadow-lg transition-shadow border-border"
-                          onClick={() => navigate(`/product/${product.id}`)}
-                        >
-                          <CardHeader className="p-0">
-                            <img
-                              src={product.image_url}
-                              alt={product.name}
-                              className="w-full h-48 object-cover rounded-t-lg"
-                            />
-                          </CardHeader>
-                          <CardContent className="p-4">
-                            <CardTitle className="mb-2">{product.name}</CardTitle>
-                            <CardDescription className="mb-4 line-clamp-2">
-                              {product.description}
-                            </CardDescription>
-                            <div className="flex items-center justify-between">
-                              <span className="text-2xl font-bold text-primary">
-                                ${product.price.toFixed(2)}
-                              </span>
-                              <Button size="sm" variant="secondary">View Details</Button>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+        {/* Subcategory Navigation */}
+        {subcategories.length > 0 && (
+          <div className="px-4 mt-4">
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+              {selectedCategory}
+            </h3>
+            <ScrollArea className="w-full whitespace-nowrap">
+              <div className="flex gap-2 pb-2">
+                {subcategories.map((subcategory) => {
+                  const isActive = selectedSubcategory === subcategory;
+                  return (
+                    <Button
+                      key={subcategory}
+                      onClick={() => setSelectedSubcategory(subcategory)}
+                      variant={isActive ? "secondary" : "ghost"}
+                      size="sm"
+                      className="flex-shrink-0"
+                    >
+                      {subcategory}
+                    </Button>
+                  );
+                })}
               </div>
-            )}
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
           </div>
-        );
-      })}
+        )}
+      </div>
+
+      {/* Products Grid */}
+      <div className="px-4 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          {filteredProducts.map((product) => (
+            <Card
+              key={product.id}
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02] border-border overflow-hidden"
+              onClick={() => navigate(`/product/${product.id}`)}
+            >
+              <CardHeader className="p-0">
+                <img
+                  src={product.image_url}
+                  alt={product.name}
+                  className="w-full h-40 sm:h-48 object-cover"
+                />
+              </CardHeader>
+              <CardContent className="p-3 sm:p-4">
+                <CardTitle className="mb-1 text-base sm:text-lg line-clamp-1">{product.name}</CardTitle>
+                <CardDescription className="mb-3 text-xs sm:text-sm line-clamp-2">
+                  {product.description}
+                </CardDescription>
+                <div className="flex items-center justify-between">
+                  <span className="text-xl sm:text-2xl font-bold text-primary">
+                    ${product.price.toFixed(2)}
+                  </span>
+                  <Button size="sm" variant="secondary" className="text-xs sm:text-sm">
+                    View
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {filteredProducts.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No products available in this category.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

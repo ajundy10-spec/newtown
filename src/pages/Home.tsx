@@ -9,45 +9,45 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary via-accent to-secondary py-20 px-4">
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary via-accent to-secondary py-12 sm:py-16 md:py-20 px-4">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-primary-foreground rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-secondary-foreground rounded-full blur-3xl" />
+          <div className="absolute top-10 left-10 w-48 h-48 sm:w-72 sm:h-72 bg-primary-foreground rounded-full blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-64 h-64 sm:w-96 sm:h-96 bg-secondary-foreground rounded-full blur-3xl" />
         </div>
         
-        <div className="container mx-auto text-center relative z-10 space-y-8">
-          <div className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-sm px-6 py-2 rounded-full border border-primary-foreground/20">
-            <Sparkles className="w-4 h-4 text-primary-foreground" />
-            <span className="text-sm font-medium text-primary-foreground">Premium Coffee Experience</span>
+        <div className="container mx-auto text-center relative z-10 space-y-6 sm:space-y-8">
+          <div className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-sm px-4 sm:px-6 py-2 rounded-full border border-primary-foreground/20">
+            <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-primary-foreground" />
+            <span className="text-xs sm:text-sm font-medium text-primary-foreground">Premium Coffee Experience</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-primary-foreground tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-primary-foreground tracking-tight px-4">
             Welcome to<br />
             <span className="bg-gradient-to-r from-primary-foreground via-secondary-foreground to-primary-foreground bg-clip-text text-transparent">
               Newtown Coffee
             </span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-primary-foreground/90 max-w-2xl mx-auto leading-relaxed px-4">
             Where every cup is crafted with passion and precision. Experience the finest coffee culture.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-4 px-4">
             <Button 
               size="lg" 
               onClick={() => navigate("/menu")}
-              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all"
+              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 rounded-full shadow-lg hover:shadow-xl transition-all w-full sm:w-auto"
             >
-              <Coffee className="mr-2" />
+              <Coffee className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
               Explore Menu
             </Button>
             <Button 
               size="lg" 
               variant="outline"
               onClick={() => navigate("/profile")}
-              className="bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 text-lg px-8 py-6 rounded-full"
+              className="bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 rounded-full w-full sm:w-auto"
             >
-              <Star className="mr-2" />
+              <Star className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
               Loyalty Rewards
             </Button>
           </div>
@@ -55,18 +55,18 @@ const Home = () => {
       </section>
 
       {/* Promotional Section */}
-      <section className="py-16 px-4 bg-background">
+      <section className="py-12 sm:py-16 px-4 bg-background">
         <div className="container mx-auto">
-          <div className="text-center space-y-4 mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
+          <div className="text-center space-y-3 sm:space-y-4 mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">
               Special Offers
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
               Indulge in our exclusive promotions and seasonal favorites
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {/* Promo Card 1 */}
             <Card className="group hover:shadow-2xl transition-all duration-300 border-2 hover:border-accent overflow-hidden">
               <div className="relative h-48 bg-gradient-to-br from-secondary to-accent overflow-hidden">
@@ -146,18 +146,18 @@ const Home = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-16 px-4 bg-muted/30">
+      <section className="py-12 sm:py-16 px-4 bg-muted/30">
         <div className="container mx-auto">
-          <div className="text-center space-y-4 mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
+          <div className="text-center space-y-3 sm:space-y-4 mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">
               The Newtown Difference
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
               Experience coffee crafted to perfection
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {[
               { title: "Premium Beans", desc: "Ethically sourced from the finest farms worldwide" },
               { title: "Expert Baristas", desc: "Trained professionals crafting every cup with care" },
@@ -179,18 +179,18 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-primary via-accent to-secondary">
-        <div className="container mx-auto text-center space-y-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground">
+      <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-r from-primary via-accent to-secondary">
+        <div className="container mx-auto text-center space-y-4 sm:space-y-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary-foreground px-4">
             Ready to Experience Excellence?
           </h2>
-          <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-primary-foreground/90 max-w-2xl mx-auto px-4">
             Join thousands of coffee lovers who start their day with Newtown Coffee
           </p>
           <Button 
             size="lg"
             onClick={() => navigate("/menu")}
-            className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-lg px-12 py-6 rounded-full shadow-xl hover:shadow-2xl transition-all"
+            className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-base sm:text-lg px-8 sm:px-12 py-5 sm:py-6 rounded-full shadow-xl hover:shadow-2xl transition-all mx-4"
           >
             View Full Menu
           </Button>

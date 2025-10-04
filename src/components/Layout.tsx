@@ -74,18 +74,18 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-3 group">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex justify-between items-center">
+          <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-full blur-md opacity-50 group-hover:opacity-75 transition-opacity" />
-              <img src={logo} alt="Newtown Coffee" className="h-12 w-12 relative z-10" />
+              <img src={logo} alt="Newtown Coffee" className="h-10 w-10 sm:h-12 sm:w-12 relative z-10" />
             </div>
             <div className="flex flex-col">
-              <h1 className="text-xl font-bold leading-tight text-foreground group-hover:text-primary transition-colors">NEWTOWN COFFEE</h1>
-              <span className="text-[10px] tracking-wider text-muted-foreground">SPECIALTY ROASTERS</span>
+              <h1 className="text-base sm:text-xl font-bold leading-tight text-foreground group-hover:text-primary transition-colors">NEWTOWN COFFEE</h1>
+              <span className="text-[8px] sm:text-[10px] tracking-wider text-muted-foreground">SPECIALTY ROASTERS</span>
             </div>
           </Link>
-          <nav className="hidden md:flex gap-6 items-center">
+          <nav className="hidden md:flex gap-4 lg:gap-6 items-center">
             <Link to="/" className="hover:text-primary transition-colors font-medium text-foreground">
               Home
             </Link>
@@ -130,20 +130,20 @@ const Layout = ({ children }: LayoutProps) => {
       <main className="flex-1">{children}</main>
 
       {session && (
-        <nav className="md:hidden bg-card border-t border-border py-3 px-4 sticky bottom-0 shadow-lg">
-          <div className="container mx-auto flex justify-around items-center">
+        <nav className="md:hidden bg-card border-t border-border py-2 px-2 sticky bottom-0 shadow-lg z-50">
+          <div className="flex justify-around items-center">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
               return (
-                <Link key={item.path} to={item.path}>
+                <Link key={item.path} to={item.path} className="flex-1">
                   <Button
                     variant={isActive ? "default" : "ghost"}
                     size="sm"
-                    className="flex flex-col gap-1 h-auto py-2"
+                    className="flex flex-col gap-1 h-auto py-2 w-full"
                   >
-                    <Icon className="h-5 w-5" />
-                    <span className="text-xs">{item.label}</span>
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+                    <span className="text-[10px] sm:text-xs">{item.label}</span>
                   </Button>
                 </Link>
               );
