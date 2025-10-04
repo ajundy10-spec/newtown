@@ -82,10 +82,7 @@ const BeansShop = () => {
       <div className="bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground py-12 px-4 mb-6">
         <div className="max-w-7xl mx-auto text-center space-y-4">
           <div className="flex justify-center mb-4">
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary-foreground/20 rounded-full blur-2xl animate-pulse" />
-              <Coffee className="w-20 h-20 relative z-10 drop-shadow-lg" />
-            </div>
+            <Coffee className="w-16 h-16" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold">Coffee Beans Shop</h1>
           <p className="text-primary-foreground/90 text-base md:text-lg max-w-2xl mx-auto">
@@ -179,8 +176,7 @@ const BeansShop = () => {
                 </CardHeader>
                 <CardContent className="p-4">
                   <div className="flex gap-2 mb-2">
-                    <Badge variant="secondary" className="text-xs flex items-center gap-1">
-                      <Coffee className="w-3 h-3" />
+                    <Badge variant="secondary" className="text-xs">
                       {roast}
                     </Badge>
                     <Badge variant="outline" className="text-xs">
