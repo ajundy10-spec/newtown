@@ -208,7 +208,7 @@ const Layout = ({ children }: LayoutProps) => {
             Newtown Coffee
           </div>
           <p className="text-sm text-muted-foreground">
-            &copy; 2024 Newtown Coffee. All rights reserved. | Crafted with passion.
+            &copy; 2025 Newtown Coffee. All rights reserved. | Crafted with passion.
           </p>
         </div>
       </footer>
