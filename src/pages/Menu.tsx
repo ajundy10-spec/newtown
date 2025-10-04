@@ -93,19 +93,22 @@ const Menu = () => {
   return (
     <div className="min-h-screen pb-20">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-primary via-primary/90 to-accent text-primary-foreground py-8 px-4 mb-6">
-        <div className="max-w-7xl mx-auto text-center space-y-2">
-          <h1 className="text-3xl md:text-4xl font-bold">Our Menu</h1>
-          <p className="text-primary-foreground/90 text-sm md:text-base">Freshly brewed coffee & delicious treats</p>
+      <div className="bg-[image:var(--gradient-hero)] text-primary-foreground py-12 px-4 mb-8 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-accent rounded-full blur-[100px]" />
+        </div>
+        <div className="max-w-7xl mx-auto text-center space-y-3 relative z-10">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">Our Menu</h1>
+          <p className="text-primary-foreground/95 text-base md:text-lg font-light">Freshly brewed coffee & delicious treats</p>
         </div>
       </div>
 
       {/* Category Navigation */}
-      <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border pb-4 mb-6">
+      <div className="sticky top-0 z-40 bg-background/98 backdrop-blur-md border-b border-border pb-5 mb-8 shadow-[var(--shadow-sm)]">
         <div className="px-4">
-          <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Categories</h2>
+          <h2 className="text-xs font-bold text-muted-foreground mb-4 uppercase tracking-widest">Categories</h2>
           <ScrollArea className="w-full whitespace-nowrap">
-            <div className="flex gap-2 pb-2">
+            <div className="flex gap-3 pb-2">
               {categories.map((category) => {
                 const Icon = getCategoryIcon(category);
                 const isActive = selectedCategory === category;
@@ -118,7 +121,7 @@ const Menu = () => {
                       setSelectedSubcategory(firstSub || "");
                     }}
                     variant={isActive ? "default" : "outline"}
-                    className={`flex-shrink-0 gap-2 ${isActive ? "shadow-lg" : ""}`}
+                    className={`flex-shrink-0 gap-2 rounded-full px-5 py-5 font-semibold transition-all duration-300 ${isActive ? "shadow-[var(--shadow-md)] scale-105" : "hover:scale-105"}`}
                   >
                     <Icon className="h-4 w-4" />
                     <span className="whitespace-nowrap">{category}</span>
@@ -132,8 +135,8 @@ const Menu = () => {
 
         {/* Subcategory Navigation */}
         {subcategories.length > 0 && (
-          <div className="px-4 mt-4">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+          <div className="px-4 mt-5">
+            <h3 className="text-[10px] font-bold text-muted-foreground mb-3 uppercase tracking-widest">
               {selectedCategory}
             </h3>
             <ScrollArea className="w-full whitespace-nowrap">
@@ -146,7 +149,7 @@ const Menu = () => {
                       onClick={() => setSelectedSubcategory(subcategory)}
                       variant={isActive ? "secondary" : "ghost"}
                       size="sm"
-                      className="flex-shrink-0"
+                      className={`flex-shrink-0 rounded-full font-medium transition-all duration-200 ${isActive ? "scale-105" : "hover:scale-105"}`}
                     >
                       {subcategory}
                     </Button>
@@ -165,26 +168,27 @@ const Menu = () => {
           {filteredProducts.map((product) => (
             <Card
               key={product.id}
-              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02] border-border overflow-hidden"
+              className="cursor-pointer hover:shadow-[var(--shadow-lg)] transition-all duration-500 hover:scale-[1.03] hover:-translate-y-1 border-0 shadow-[var(--shadow-sm)] overflow-hidden group bg-[image:var(--gradient-card)]"
               onClick={() => navigate(`/product/${product.id}`)}
             >
-              <CardHeader className="p-0">
+              <CardHeader className="p-0 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
                 <img
                   src={product.image_url}
                   alt={product.name}
-                  className="w-full h-40 sm:h-48 object-cover"
+                  className="w-full h-44 sm:h-52 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </CardHeader>
-              <CardContent className="p-3 sm:p-4">
-                <CardTitle className="mb-1 text-base sm:text-lg line-clamp-1">{product.name}</CardTitle>
-                <CardDescription className="mb-3 text-xs sm:text-sm line-clamp-2">
+              <CardContent className="p-4 sm:p-5">
+                <CardTitle className="mb-2 text-base sm:text-lg line-clamp-1 group-hover:text-primary transition-colors">{product.name}</CardTitle>
+                <CardDescription className="mb-4 text-xs sm:text-sm line-clamp-2 leading-relaxed">
                   {product.description}
                 </CardDescription>
                 <div className="flex items-center justify-between">
-                  <span className="text-xl sm:text-2xl font-bold text-primary">
+                  <span className="text-2xl sm:text-3xl font-bold text-primary">
                     ${product.price.toFixed(2)}
                   </span>
-                  <Button size="sm" variant="secondary" className="text-xs sm:text-sm">
+                  <Button size="sm" variant="secondary" className="text-xs sm:text-sm rounded-full px-5 font-semibold hover:scale-105 transition-all">
                     View
                   </Button>
                 </div>
