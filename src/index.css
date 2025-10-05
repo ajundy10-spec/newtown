@@ -47,14 +47,23 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
+    /* Glassy effects */
+    --glass-bg: hsl(var(--background) / 0.7);
+    --glass-border: hsl(var(--foreground) / 0.1);
+    --glass-hover: hsl(var(--foreground) / 0.05);
+    
     /* Luxurious gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
     --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
     --gradient-luxury: linear-gradient(135deg, hsl(25 45% 20%), hsl(30 40% 30%), hsl(142 50% 40%));
+    --gradient-mesh: radial-gradient(at 40% 20%, hsl(var(--primary) / 0.3) 0px, transparent 50%),
+                     radial-gradient(at 80% 0%, hsl(var(--secondary) / 0.2) 0px, transparent 50%),
+                     radial-gradient(at 0% 50%, hsl(var(--accent) / 0.2) 0px, transparent 50%);
     
     /* Shadow enhancements */
     --shadow-luxury: 0 10px 40px -10px hsl(var(--primary) / 0.3);
     --shadow-glow: 0 0 30px hsl(var(--accent) / 0.2);
+    --shadow-glass: 0 8px 32px 0 hsl(var(--primary) / 0.15);
   }
 
   .dark {
@@ -95,14 +104,23 @@ All colors MUST be HSL.
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
+    /* Glassy effects dark */
+    --glass-bg: hsl(var(--background) / 0.6);
+    --glass-border: hsl(var(--foreground) / 0.15);
+    --glass-hover: hsl(var(--foreground) / 0.1);
+    
     /* Luxurious dark gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
     --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
     --gradient-luxury: linear-gradient(135deg, hsl(25 45% 25%), hsl(30 40% 35%), hsl(142 50% 45%));
+    --gradient-mesh: radial-gradient(at 40% 20%, hsl(var(--primary) / 0.2) 0px, transparent 50%),
+                     radial-gradient(at 80% 0%, hsl(var(--secondary) / 0.15) 0px, transparent 50%),
+                     radial-gradient(at 0% 50%, hsl(var(--accent) / 0.15) 0px, transparent 50%);
     
     /* Shadow enhancements for dark mode */
     --shadow-luxury: 0 10px 40px -10px hsl(var(--accent) / 0.4);
     --shadow-glow: 0 0 30px hsl(var(--accent) / 0.3);
+    --shadow-glass: 0 8px 32px 0 hsl(var(--accent) / 0.2);
   }
 }
 
@@ -113,5 +131,24 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    background-image: var(--gradient-mesh);
+    background-attachment: fixed;
+  }
+
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-hover {
+    @apply glass transition-all duration-300;
+  }
+
+  .glass-hover:hover {
+    background: var(--glass-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glass);
   }
 }
