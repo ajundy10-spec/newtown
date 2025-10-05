@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
 import { signUpSchema, signInSchema, passwordResetSchema } from "@/lib/validations";
+import { Coffee } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -33,7 +34,6 @@ const Auth = () => {
       fullName: formData.get("fullName") as string,
     };
 
-    // Validate input
     const validation = signUpSchema.safeParse(rawData);
     if (!validation.success) {
       setLoading(false);
@@ -74,7 +74,6 @@ const Auth = () => {
       password: formData.get("password") as string,
     };
 
-    // Validate input
     const validation = signInSchema.safeParse(rawData);
     if (!validation.success) {
       setLoading(false);
@@ -103,7 +102,6 @@ const Auth = () => {
     const email = prompt("Enter your email address:");
     if (!email) return;
 
-    // Validate email
     const validation = passwordResetSchema.safeParse({ email });
     if (!validation.success) {
       toast.error(validation.error.errors[0].message);
@@ -122,23 +120,28 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <img src={logo} alt="Newtown Coffee" className="h-20 w-20" />
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/15 to-accent/20" />
+      <div className="absolute inset-0 backdrop-blur-[100px]" />
+      
+      <div className="relative w-full max-w-md">
+        <div className="smooth-glass rounded-3xl p-8 shadow-xl">
+          <div className="text-center mb-8">
+            <div className="smooth-glass rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
+              <img src={logo} alt="Newtown Coffee" className="h-16 w-16" />
+            </div>
+            <h1 className="text-4xl font-bold mb-2">NEWTOWN COFFEE</h1>
+            <p className="text-sm tracking-wider text-muted-foreground mb-4">SPECIALTY ROASTERS</p>
+            <p className="text-muted-foreground">Welcome! Sign in or create an account</p>
           </div>
-          <CardTitle className="text-3xl text-primary">NEWTOWN COFFEE</CardTitle>
-          <CardDescription className="text-sm tracking-wider">SPECIALTY ROASTERS</CardDescription>
-          <CardDescription className="mt-2">Welcome! Sign in or create an account</CardDescription>
-        </CardHeader>
-        <CardContent>
+
           <Tabs defaultValue="signin" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-2 smooth-glass">
               <TabsTrigger value="signin">Sign In</TabsTrigger>
               <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
-            <TabsContent value="signin">
+            
+            <TabsContent value="signin" className="mt-6">
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="signin-email">Email</Label>
@@ -147,6 +150,7 @@ const Auth = () => {
                     name="email"
                     type="email"
                     placeholder="your@email.com"
+                    className="smooth-glass"
                     required
                   />
                 </div>
@@ -157,10 +161,11 @@ const Auth = () => {
                     name="password"
                     type="password"
                     placeholder="••••••••"
+                    className="smooth-glass"
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full smooth-glass hover:scale-105 transition-all duration-300" disabled={loading}>
                   {loading ? "Signing in..." : "Sign In"}
                 </Button>
                 <Button
@@ -173,7 +178,8 @@ const Auth = () => {
                 </Button>
               </form>
             </TabsContent>
-            <TabsContent value="signup">
+            
+            <TabsContent value="signup" className="mt-6">
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="signup-name">Full Name</Label>
@@ -182,6 +188,7 @@ const Auth = () => {
                     name="fullName"
                     type="text"
                     placeholder="John Doe"
+                    className="smooth-glass"
                     required
                   />
                 </div>
@@ -192,6 +199,7 @@ const Auth = () => {
                     name="email"
                     type="email"
                     placeholder="your@email.com"
+                    className="smooth-glass"
                     required
                   />
                 </div>
@@ -202,17 +210,18 @@ const Auth = () => {
                     name="password"
                     type="password"
                     placeholder="••••••••"
+                    className="smooth-glass"
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full smooth-glass hover:scale-105 transition-all duration-300" disabled={loading}>
                   {loading ? "Creating account..." : "Create Account"}
                 </Button>
               </form>
             </TabsContent>
           </Tabs>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };

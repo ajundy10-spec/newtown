@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "sonner";
 import LoyaltyCard from "@/components/LoyaltyCard";
 import { formatDistanceToNow } from "date-fns";
+import { User, ShoppingBag } from "lucide-react";
 
 interface Profile {
   full_name: string;
@@ -46,7 +47,6 @@ const Profile = () => {
 
     if (!user) return;
 
-    // Fetch profile
     const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .select("*")
@@ -59,7 +59,6 @@ const Profile = () => {
       setProfile(profileData);
     }
 
-    // Fetch loyalty points
     const { data: loyaltyData, error: loyaltyError } = await supabase
       .from("loyalty_points")
       .select("*")
@@ -72,7 +71,6 @@ const Profile = () => {
       setLoyaltyPoints(loyaltyData);
     }
 
-    // Fetch orders
     const { data: ordersData, error: ordersError } = await supabase
       .from("orders")
       .select(
@@ -106,56 +104,74 @@ const Profile = () => {
   }
 
   return (
-    <div className="space-y-6 pb-8">
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold">My Profile</h1>
-        <p className="text-muted-foreground">Manage your account and view your orders</p>
+    <div className="min-h-screen pb-20">
+      {/* Hero Section */}
+      <div className="relative py-20 px-4 mb-8 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/30" />
+        <div className="absolute inset-0 backdrop-blur-[100px]" />
+        <div className="relative max-w-4xl mx-auto text-center space-y-4">
+          <div className="smooth-glass rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+            <User className="w-10 h-10" />
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold">My Profile</h1>
+          <p className="text-muted-foreground text-xl">Manage your account and track your rewards</p>
+        </div>
       </div>
 
-      {profile && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Account Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div>
-              <p className="text-sm text-muted-foreground">Name</p>
-              <p className="text-lg font-semibold">{profile.full_name}</p>
+      <div className="px-4 max-w-4xl mx-auto space-y-6">
+        {profile && (
+          <div className="glass-card p-8">
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
+              <div className="smooth-glass rounded-full w-12 h-12 flex items-center justify-center">
+                <User className="w-6 h-6" />
+              </div>
+              Account Information
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground uppercase tracking-wide">Name</p>
+                <p className="text-xl font-semibold">{profile.full_name}</p>
+              </div>
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground uppercase tracking-wide">Email</p>
+                <p className="text-xl">{profile.email}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Email</p>
-              <p className="text-lg">{profile.email}</p>
+          </div>
+        )}
+
+        {loyaltyPoints && (
+          <LoyaltyCard
+            points={loyaltyPoints.points}
+            totalEarned={loyaltyPoints.total_earned}
+            rewardsRedeemed={loyaltyPoints.rewards_redeemed}
+          />
+        )}
+
+        <div className="glass-card p-8">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
+            <div className="smooth-glass rounded-full w-12 h-12 flex items-center justify-center">
+              <ShoppingBag className="w-6 h-6" />
             </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {loyaltyPoints && (
-        <LoyaltyCard
-          points={loyaltyPoints.points}
-          totalEarned={loyaltyPoints.total_earned}
-          rewardsRedeemed={loyaltyPoints.rewards_redeemed}
-        />
-      )}
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Order History</CardTitle>
-          <CardDescription>Your recent purchases</CardDescription>
-        </CardHeader>
-        <CardContent>
+            Order History
+          </h2>
           {orders.length === 0 ? (
-            <p className="text-center text-muted-foreground py-8">No orders yet</p>
+            <div className="text-center py-12">
+              <div className="smooth-glass rounded-3xl p-8 inline-block">
+                <ShoppingBag className="w-12 h-12 mx-auto mb-3 text-muted-foreground" />
+                <p className="text-muted-foreground">No orders yet</p>
+              </div>
+            </div>
           ) : (
             <div className="space-y-4">
               {orders.map((order) => (
                 <div
                   key={order.id}
-                  className="border border-border rounded-lg p-4 space-y-2"
+                  className="glass-hover rounded-2xl p-6 space-y-3"
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-semibold">
+                      <p className="text-2xl font-bold text-primary">
                         ${order.total.toFixed(2)}
                       </p>
                       <p className="text-sm text-muted-foreground">
@@ -164,13 +180,13 @@ const Profile = () => {
                         })}
                       </p>
                     </div>
-                    <span className="text-xs px-2 py-1 bg-accent text-accent-foreground rounded-full">
+                    <span className="smooth-glass px-4 py-2 rounded-full text-sm font-semibold">
                       {order.status}
                     </span>
                   </div>
-                  <div className="text-sm">
+                  <div className="space-y-1">
                     {order.order_items.map((item, idx) => (
-                      <p key={idx} className="text-muted-foreground">
+                      <p key={idx} className="text-sm text-muted-foreground">
                         {item.quantity}x {item.products.name}
                       </p>
                     ))}
@@ -179,8 +195,8 @@ const Profile = () => {
               ))}
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };

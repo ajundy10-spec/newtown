@@ -74,7 +74,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+      <header className="border-b smooth-glass sticky top-0 z-50 shadow-lg">
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
             <div className="relative">
@@ -133,7 +133,7 @@ const Layout = ({ children }: LayoutProps) => {
 
       <main className="flex-1">{children}</main>
 
-      <nav className="md:hidden bg-card border-t border-border py-2 px-2 sticky bottom-0 shadow-lg z-50">
+      <nav className="md:hidden smooth-glass border-t border-border py-2 px-2 sticky bottom-0 shadow-xl z-50">
         <div className="flex justify-around items-center">
           {session ? (
             <>
@@ -201,7 +201,7 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       </nav>
       
-      <footer className="border-t py-8 bg-muted/30">
+      <footer className="border-t py-8 smooth-glass">
         <div className="container mx-auto px-4 text-center space-y-4">
           <div className="flex items-center justify-center gap-2 text-xl font-bold text-primary">
             <Coffee className="w-6 h-6" />
