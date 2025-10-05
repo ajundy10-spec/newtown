@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Coffee, Filter, Leaf } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -75,87 +73,81 @@ const BeansShop = () => {
   }
 
   return (
-    <div className="min-h-screen pb-20">
-      {/* Hero Section */}
-      <div className="relative py-24 px-4 mb-8 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-secondary/30 via-accent/20 to-primary/30" />
-        <div className="absolute inset-0 backdrop-blur-[100px]" />
-        <div className="relative max-w-7xl mx-auto text-center space-y-6">
-          <div className="smooth-glass rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6 animate-fade-in">
-            <Leaf className="w-12 h-12" />
+    <div className="min-h-screen pb-20 md:pb-8 bg-gradient-to-b from-background via-background to-secondary/5">
+      {/* Compact Hero Section */}
+      <div className="relative pt-6 md:pt-12 pb-6 md:pb-8 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-md md:max-w-2xl mx-auto space-y-3 md:space-y-4">
+            <div className="smooth-glass rounded-2xl w-14 h-14 md:w-16 md:h-16 flex items-center justify-center mx-auto md:mx-0">
+              <Leaf className="w-7 h-7 md:w-8 md:h-8" />
+            </div>
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold">Coffee Beans</h1>
+            <p className="text-muted-foreground text-sm md:text-lg">Premium beans roasted to perfection</p>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold animate-fade-in" style={{ animationDelay: '0.1s' }}>Coffee Beans Shop</h1>
-          <p className="text-muted-foreground text-xl max-w-3xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Premium coffee beans sourced from the world's finest farms. Roasted to perfection for your perfect brew.
-          </p>
         </div>
       </div>
 
       {/* Filters Section */}
-      <div className="sticky top-0 z-40 smooth-glass border-b border-border pb-4 mb-6">
+      <div className="sticky top-0 z-40 smooth-glass border-b border-border pb-3 md:pb-4 mb-4 md:mb-6">
         <div className="px-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Filter className="w-4 h-4 text-muted-foreground" />
-            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Roast Level</h2>
+          <div className="flex items-center gap-2 mb-2">
+            <Filter className="w-3 h-3 md:w-4 md:h-4 text-muted-foreground" />
+            <h2 className="text-xs md:text-sm font-semibold text-muted-foreground uppercase tracking-wide">Roast Level</h2>
           </div>
-          <ScrollArea className="w-full whitespace-nowrap">
-            <div className="flex gap-3 pb-2">
-              {roastLevels.map((roast) => {
-                const isActive = selectedRoast === roast;
-                return (
-                  <Button
-                    key={roast}
-                    onClick={() => setSelectedRoast(roast)}
-                    className={`flex-shrink-0 transition-all duration-500 ${
-                      isActive 
-                        ? "smooth-glass hover:scale-105 shadow-lg" 
-                        : "glass hover:scale-105"
-                    }`}
-                  >
-                    {roast}
-                  </Button>
-                );
-              })}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory">
+            {roastLevels.map((roast) => {
+              const isActive = selectedRoast === roast;
+              return (
+                <button
+                  key={roast}
+                  onClick={() => setSelectedRoast(roast)}
+                  className={`flex-shrink-0 snap-start px-4 py-2 md:py-2.5 rounded-xl text-sm md:text-base font-medium transition-all duration-300 ${
+                    isActive 
+                      ? "smooth-glass scale-105 shadow-md" 
+                      : "glass-card hover:scale-105 active:scale-95"
+                  }`}
+                >
+                  {roast}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="px-4 mt-4">
+        <div className="px-4 mt-3 md:mt-4">
           <h3 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
             Origin
           </h3>
-          <ScrollArea className="w-full whitespace-nowrap">
-            <div className="flex gap-2 pb-2">
-              {origins.map((origin) => {
-                const isActive = selectedOrigin === origin;
-                return (
-                  <Button
-                    key={origin}
-                    onClick={() => setSelectedOrigin(origin)}
-                    variant={isActive ? "secondary" : "ghost"}
-                    size="sm"
-                    className="flex-shrink-0 transition-all duration-300"
-                  >
-                    {origin}
-                  </Button>
-                );
-              })}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory">
+            {origins.map((origin) => {
+              const isActive = selectedOrigin === origin;
+              return (
+                <button
+                  key={origin}
+                  onClick={() => setSelectedOrigin(origin)}
+                  className={`flex-shrink-0 snap-start px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 ${
+                    isActive 
+                      ? "smooth-glass shadow-md" 
+                      : "bg-muted/50 hover:bg-muted active:scale-95"
+                  }`}
+                >
+                  {origin}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
       {/* Products Grid */}
       <div className="px-4 max-w-7xl mx-auto">
-        <div className="mb-6">
-          <p className="text-sm text-muted-foreground">
-            Showing {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}
+        <div className="mb-3 md:mb-4">
+          <p className="text-xs md:text-sm text-muted-foreground">
+            {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-4">
           {filteredProducts.map((product) => {
             const parts = product.subcategory.split(" - ");
             const roast = parts[0] || "";
@@ -164,37 +156,37 @@ const BeansShop = () => {
             return (
               <div
                 key={product.id}
-                className="glass-card cursor-pointer overflow-hidden group"
+                className="glass-card cursor-pointer overflow-hidden group hover:scale-[1.02] transition-all duration-300 active:scale-95"
                 onClick={() => navigate(`/product/${product.id}`)}
               >
                 <div className="relative overflow-hidden">
                   <img
                     src={product.image_url}
                     alt={product.name}
-                    className="w-full h-52 object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
-                <div className="p-5">
-                  <div className="flex gap-2 mb-3">
-                    <Badge variant="secondary" className="text-xs">
+                <div className="p-2 md:p-4">
+                  <div className="flex gap-1 mb-2 flex-wrap">
+                    <Badge variant="secondary" className="text-[9px] md:text-xs px-1.5 md:px-2 py-0 md:py-0.5">
                       {roast}
                     </Badge>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-[9px] md:text-xs px-1.5 md:px-2 py-0 md:py-0.5">
                       {origin}
                     </Badge>
                   </div>
-                  <h3 className="text-xl font-bold mb-2 line-clamp-1">{product.name}</h3>
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                  <h3 className="text-xs md:text-base font-bold mb-1 line-clamp-1">{product.name}</h3>
+                  <p className="text-muted-foreground text-[10px] md:text-sm mb-2 line-clamp-1">
                     {product.description}
                   </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-primary">
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="text-sm md:text-lg font-bold text-primary">
                       ${product.price.toFixed(2)}
                     </span>
-                    <Button size="sm" variant="secondary" className="group-hover:scale-105 transition-transform duration-300">
+                    <button className="smooth-glass px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs font-medium group-hover:scale-105 transition-transform duration-300">
                       View
-                    </Button>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -203,13 +195,13 @@ const BeansShop = () => {
         </div>
 
         {filteredProducts.length === 0 && (
-          <div className="text-center py-20">
-            <div className="smooth-glass rounded-3xl p-12 max-w-md mx-auto">
-              <Leaf className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-              <p className="text-muted-foreground text-lg mb-4">No coffee beans match your filters.</p>
+          <div className="text-center py-12 md:py-20">
+            <div className="smooth-glass rounded-3xl p-8 md:p-12 max-w-md mx-auto">
+              <Leaf className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 text-muted-foreground" />
+              <p className="text-muted-foreground text-sm md:text-lg mb-4">No coffee beans match your filters.</p>
               <Button
                 variant="outline"
-                className="smooth-glass hover:scale-105 transition-all duration-300"
+                className="smooth-glass hover:scale-105 transition-all duration-300 text-xs md:text-sm"
                 onClick={() => {
                   setSelectedRoast("All");
                   setSelectedOrigin("All");

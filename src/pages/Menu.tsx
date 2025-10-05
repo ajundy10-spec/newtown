@@ -115,14 +115,14 @@ const Menu = () => {
                     const firstSub = Object.keys(groupedProducts[category] || {})[0];
                     setSelectedSubcategory(firstSub || "");
                   }}
-                  className={`flex-shrink-0 snap-start flex items-center gap-2 px-4 py-2.5 md:py-3 rounded-xl transition-all duration-300 ${
+                  className={`flex-shrink-0 snap-start flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-xl transition-all duration-300 ${
                     isActive 
                       ? "smooth-glass scale-105 shadow-md" 
                       : "glass-card hover:scale-105 active:scale-95"
                   }`}
                 >
-                  <Icon className="h-4 w-4 md:h-5 md:w-5" />
-                  <span className="text-sm md:text-base font-medium whitespace-nowrap">{category}</span>
+                  <Icon className="h-4 w-4 md:h-5 md:w-5 flex-shrink-0" />
+                  <span className="text-xs md:text-sm font-semibold whitespace-nowrap">{category}</span>
                 </button>
               );
             })}
