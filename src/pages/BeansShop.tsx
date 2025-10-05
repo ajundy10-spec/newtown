@@ -88,7 +88,7 @@ const BeansShop = () => {
       </div>
 
       {/* Filters Section */}
-      <div className="sticky top-0 z-40 smooth-glass border-b border-border pb-3 md:pb-4 mb-4 md:mb-6">
+      <div className="sticky top-0 z-40 backdrop-blur-xl bg-background/40 border-b border-border/30 pb-3 md:pb-4 mb-4 md:mb-6">
         <div className="px-4">
           <div className="flex items-center gap-2 mb-2">
             <Filter className="w-3 h-3 md:w-4 md:h-4 text-muted-foreground" />
@@ -101,10 +101,10 @@ const BeansShop = () => {
                 <button
                   key={roast}
                   onClick={() => setSelectedRoast(roast)}
-                  className={`flex-shrink-0 snap-start px-3 md:px-4 py-2 md:py-2.5 rounded-xl text-sm md:text-base font-medium transition-all duration-300 ${
+                  className={`flex-shrink-0 snap-start px-3 md:px-4 py-2 md:py-2.5 rounded-xl backdrop-blur-md text-sm md:text-base font-medium transition-all duration-300 border ${
                     isActive 
-                      ? "smooth-glass scale-105 shadow-lg border-primary/20" 
-                      : "smooth-glass hover:scale-105 active:scale-95 opacity-60 hover:opacity-100"
+                      ? "bg-primary/10 border-primary/30 scale-105 shadow-lg" 
+                      : "bg-background/20 border-border/20 hover:bg-background/30 hover:scale-105 active:scale-95"
                   }`}
                 >
                   {roast}
@@ -125,10 +125,10 @@ const BeansShop = () => {
                 <button
                   key={origin}
                   onClick={() => setSelectedOrigin(origin)}
-                  className={`flex-shrink-0 snap-start px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 ${
+                  className={`flex-shrink-0 snap-start px-3 md:px-4 py-1.5 md:py-2 rounded-full backdrop-blur-md text-xs md:text-sm font-medium transition-all duration-300 border ${
                     isActive 
-                      ? "smooth-glass shadow-md scale-105" 
-                      : "smooth-glass opacity-50 hover:opacity-100 hover:scale-105 active:scale-95"
+                      ? "bg-secondary/10 border-secondary/30 shadow-md scale-105" 
+                      : "bg-background/20 border-border/20 hover:bg-background/30 hover:scale-105 active:scale-95"
                   }`}
                 >
                   {origin}
