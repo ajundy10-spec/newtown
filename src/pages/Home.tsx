@@ -1,7 +1,20 @@
 import { Coffee, Leaf, Award, Heart, Star, Clock, Gift, Sparkles } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/menu?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate('/menu');
+    }
+  };
+
   return (
     <div className="min-h-screen pb-20 md:pb-8 bg-gradient-to-b from-background via-background to-secondary/5">
       {/* Hero Section */}
@@ -23,10 +36,16 @@ const Home = () => {
             </div>
             
             {/* Search Bar */}
-            <div className="smooth-glass rounded-2xl p-4 md:p-5 flex items-center gap-3 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <form onSubmit={handleSearch} className="smooth-glass rounded-2xl p-4 md:p-5 flex items-center gap-3 animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <Coffee className="h-5 w-5 md:h-6 md:w-6 text-muted-foreground" />
-              <span className="text-muted-foreground text-sm md:text-base">Search drinks, beans...</span>
-            </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search drinks, beans..."
+                className="flex-1 bg-transparent border-none outline-none text-sm md:text-base placeholder:text-muted-foreground"
+              />
+            </form>
           </div>
         </div>
       </section>

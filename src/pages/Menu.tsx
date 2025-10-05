@@ -24,6 +24,14 @@ const Menu = () => {
 
   useEffect(() => {
     fetchProducts();
+    
+    // Get search query from URL
+    const params = new URLSearchParams(window.location.search);
+    const search = params.get('search');
+    if (search) {
+      // Filter products based on search when they load
+      // We'll set this up after products are fetched
+    }
   }, []);
 
   const fetchProducts = async () => {
@@ -39,10 +47,19 @@ const Menu = () => {
     } else {
       setProducts(data || []);
       if (data && data.length > 0) {
-        const firstCategory = data[0].category;
-        setSelectedCategory(firstCategory);
-        const firstSubcategory = data.find(p => p.category === firstCategory)?.subcategory || "";
-        setSelectedSubcategory(firstSubcategory);
+        // Always default to Coffee category first
+        const coffeeCategory = data.find(p => p.category === "Coffee");
+        if (coffeeCategory) {
+          setSelectedCategory("Coffee");
+          const firstSubcategory = data.find(p => p.category === "Coffee")?.subcategory || "";
+          setSelectedSubcategory(firstSubcategory);
+        } else {
+          // Fallback if Coffee doesn't exist
+          const firstCategory = data[0].category;
+          setSelectedCategory(firstCategory);
+          const firstSubcategory = data.find(p => p.category === firstCategory)?.subcategory || "";
+          setSelectedSubcategory(firstSubcategory);
+        }
       }
     }
     setLoading(false);
@@ -70,6 +87,12 @@ const Menu = () => {
   }, {} as Record<string, Record<string, Product[]>>);
 
   const categories = Object.keys(groupedProducts);
+  // Ensure Coffee is always first
+  const sortedCategories = categories.sort((a, b) => {
+    if (a === "Coffee") return -1;
+    if (b === "Coffee") return 1;
+    return a.localeCompare(b);
+  });
   const subcategories = selectedCategory ? Object.keys(groupedProducts[selectedCategory] || {}) : [];
   
   const filteredProducts = selectedCategory && selectedSubcategory
@@ -104,7 +127,7 @@ const Menu = () => {
         <div className="px-4">
           <h2 className="text-xs md:text-sm font-semibold text-muted-foreground mb-2 md:mb-3 uppercase tracking-wide">Categories</h2>
           <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory">
-            {categories.map((category) => {
+            {sortedCategories.map((category) => {
               const Icon = getCategoryIcon(category);
               const isActive = selectedCategory === category;
               return (
