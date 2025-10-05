@@ -37,21 +37,22 @@ const Home = () => {
           <h2 className="text-lg md:text-2xl font-bold mb-4 md:mb-6">Quick Order</h2>
           <div className="flex md:grid md:grid-cols-4 gap-3 md:gap-4 overflow-x-auto md:overflow-visible pb-2 scrollbar-hide snap-x snap-mandatory md:snap-none">
             {[
-              { icon: Coffee, title: "Espresso", price: "$3.50", color: "from-amber-500/20 to-orange-500/20" },
-              { icon: Coffee, title: "Latte", price: "$4.50", color: "from-blue-500/20 to-cyan-500/20" },
-              { icon: Coffee, title: "Cappuccino", price: "$4.00", color: "from-purple-500/20 to-pink-500/20" },
-              { icon: Coffee, title: "Mocha", price: "$5.00", color: "from-red-500/20 to-orange-500/20" }
+              { icon: Coffee, title: "Espresso", price: "$3.50", color: "from-amber-500/20 to-orange-500/20", link: "/menu" },
+              { icon: Coffee, title: "Latte", price: "$4.50", color: "from-blue-500/20 to-cyan-500/20", link: "/menu" },
+              { icon: Coffee, title: "Cappuccino", price: "$4.00", color: "from-purple-500/20 to-pink-500/20", link: "/menu" },
+              { icon: Coffee, title: "Mocha", price: "$5.00", color: "from-red-500/20 to-orange-500/20", link: "/menu" }
             ].map((item, i) => (
-              <div 
-                key={i} 
-                className="flex-shrink-0 w-36 md:w-auto snap-start glass-card p-4 md:p-6 hover:scale-105 transition-all duration-300 active:scale-95 cursor-pointer"
+              <Link
+                key={i}
+                to={item.link}
+                className="flex-shrink-0 w-36 md:w-auto snap-start glass-card p-4 md:p-6 hover:scale-105 transition-all duration-300 active:scale-95 cursor-pointer block"
               >
                 <div className={`smooth-glass rounded-xl w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mb-3 bg-gradient-to-br ${item.color}`}>
                   <item.icon className="h-6 w-6 md:h-8 md:w-8" />
                 </div>
                 <h3 className="font-semibold text-sm md:text-base mb-1">{item.title}</h3>
                 <p className="text-primary font-bold text-sm md:text-lg">{item.price}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -68,17 +69,35 @@ const Home = () => {
               { icon: Gift, title: "Offers", desc: "Special deals", link: "#offers", color: "from-accent/30 to-accent/10" },
               { icon: Star, title: "Rewards", desc: "Your points", link: "/profile", color: "from-amber-500/30 to-amber-500/10" }
             ].map((cat, i) => (
-              <Link 
-                key={i} 
-                to={cat.link}
-                className="glass-card p-4 md:p-6 group hover:scale-[1.02] transition-all duration-300 active:scale-95"
-              >
-                <div className={`smooth-glass rounded-xl w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mb-3 bg-gradient-to-br ${cat.color} group-hover:scale-110 transition-transform duration-300`}>
-                  <cat.icon className="h-6 w-6 md:h-8 md:w-8" />
-                </div>
-                <h3 className="font-semibold text-sm md:text-base mb-0.5">{cat.title}</h3>
-                <p className="text-xs md:text-sm text-muted-foreground">{cat.desc}</p>
-              </Link>
+              cat.link === "#offers" ? (
+                <a
+                  key={i}
+                  href={cat.link}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('offers')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="glass-card p-4 md:p-6 group hover:scale-[1.02] transition-all duration-300 active:scale-95 cursor-pointer block"
+                >
+                  <div className={`smooth-glass rounded-xl w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mb-3 bg-gradient-to-br ${cat.color} group-hover:scale-110 transition-transform duration-300`}>
+                    <cat.icon className="h-6 w-6 md:h-8 md:w-8" />
+                  </div>
+                  <h3 className="font-semibold text-sm md:text-base mb-0.5">{cat.title}</h3>
+                  <p className="text-xs md:text-sm text-muted-foreground">{cat.desc}</p>
+                </a>
+              ) : (
+                <Link 
+                  key={i} 
+                  to={cat.link}
+                  className="glass-card p-4 md:p-6 group hover:scale-[1.02] transition-all duration-300 active:scale-95 cursor-pointer block"
+                >
+                  <div className={`smooth-glass rounded-xl w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mb-3 bg-gradient-to-br ${cat.color} group-hover:scale-110 transition-transform duration-300`}>
+                    <cat.icon className="h-6 w-6 md:h-8 md:w-8" />
+                  </div>
+                  <h3 className="font-semibold text-sm md:text-base mb-0.5">{cat.title}</h3>
+                  <p className="text-xs md:text-sm text-muted-foreground">{cat.desc}</p>
+                </Link>
+              )
             ))}
           </div>
         </div>
