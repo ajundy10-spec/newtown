@@ -159,7 +159,7 @@ const Menu = () => {
 
       {/* Products Grid */}
       <div className="px-4 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-4">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
@@ -170,27 +170,23 @@ const Menu = () => {
                 <img
                   src={product.image_url}
                   alt={product.name}
-                  className="w-full h-40 md:h-48 object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute top-2 right-2 smooth-glass px-3 py-1 rounded-full">
-                  <span className="text-xs md:text-sm font-bold text-primary">
-                    ${product.price.toFixed(2)}
-                  </span>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
-              <div className="p-4 md:p-5">
-                <h3 className="text-base md:text-lg font-bold mb-1 line-clamp-1">{product.name}</h3>
-                <p className="text-muted-foreground text-xs md:text-sm mb-3 line-clamp-2">
+              <div className="p-2 md:p-4">
+                <h3 className="text-xs md:text-base font-bold mb-1 line-clamp-1">{product.name}</h3>
+                <p className="text-muted-foreground text-[10px] md:text-sm mb-2 line-clamp-1">
                   {product.description}
                 </p>
-                <Button 
-                  size="sm" 
-                  variant="secondary" 
-                  className="w-full group-hover:scale-105 transition-transform duration-300"
-                >
-                  View Details
-                </Button>
+                <div className="flex items-center justify-between gap-1">
+                  <span className="text-sm md:text-lg font-bold text-primary">
+                    ${product.price.toFixed(2)}
+                  </span>
+                  <button className="smooth-glass px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs font-medium group-hover:scale-105 transition-transform duration-300">
+                    View
+                  </button>
+                </div>
               </div>
             </div>
           ))}
