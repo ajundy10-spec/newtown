@@ -117,8 +117,8 @@ const Menu = () => {
                   }}
                   className={`flex-shrink-0 snap-start flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-xl transition-all duration-300 ${
                     isActive 
-                      ? "smooth-glass scale-105 shadow-md" 
-                      : "glass-card hover:scale-105 active:scale-95"
+                      ? "smooth-glass scale-105 shadow-lg border-primary/20" 
+                      : "smooth-glass hover:scale-105 active:scale-95 opacity-60 hover:opacity-100"
                   }`}
                 >
                   <Icon className="h-4 w-4 md:h-5 md:w-5 flex-shrink-0" />
@@ -142,10 +142,10 @@ const Menu = () => {
                   <button
                     key={subcategory}
                     onClick={() => setSelectedSubcategory(subcategory)}
-                    className={`flex-shrink-0 snap-start px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 ${
+                    className={`flex-shrink-0 snap-start px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 ${
                       isActive 
-                        ? "smooth-glass shadow-md" 
-                        : "bg-muted/50 hover:bg-muted active:scale-95"
+                        ? "smooth-glass shadow-md scale-105" 
+                        : "smooth-glass opacity-50 hover:opacity-100 hover:scale-105 active:scale-95"
                     }`}
                   >
                     {subcategory}
